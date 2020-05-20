@@ -23,8 +23,6 @@ namespace StrongPassGenerator
         {
             var about = new About();
             about.ShowDialog();
-            //string targetURL = @"c:\users\administrator\documents\visual studio 2015\Projects\StrongPassGenerator\StrongPassGenerator\HTMLPage1.html";
-            //System.Diagnostics.Process.Start(targetURL);
         }
 
         private void button1_Click(object sender, EventArgs e)

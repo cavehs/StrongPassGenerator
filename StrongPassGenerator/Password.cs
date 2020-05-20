@@ -8,7 +8,14 @@ namespace StrongPassGenerator
 {
     public class Password
     {
-        Random random = new Random();
+        Random random;
+
+        public Password()
+        {
+            // Always seed a random to ensure unique values!
+            random = new Random(System.DateTime.Now.Millisecond);
+        }
+
         public string Generate(int inputLength, bool symbol, bool number, bool lowerCase, bool upperCase, bool noSimilar, bool isAmbigious)
         {
             var initialInputLength = inputLength;
@@ -92,12 +99,9 @@ namespace StrongPassGenerator
                 case 2:
                     symbolChar = (char)(random.Next(35, 39));
                     break;
-
                 case 3:
                     symbolChar = (char)(random.Next(42, 44));
                     break;
-
-
                 case 4:
                     symbolChar = (char)(random.Next(61, 62));
                     break;
@@ -125,8 +129,6 @@ namespace StrongPassGenerator
             char upperCaseChar = (char)(random.Next(65, 91));
             return upperCaseChar;
         }
-
-
 
         public string removeSimilar(string similar)
         {
