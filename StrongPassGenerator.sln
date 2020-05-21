@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrongPassGenerator", "StrongPassGenerator\StrongPassGenerator.csproj", "{B5E0DB80-B2D8-4B09-864B-9F5887189A70}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{1EF53ED3-EBDD-4403-973C-1EABE01A9D88}"
 	ProjectSection(SolutionItems) = preProject
 		StrongPassGenerator\Images\ProgramEnv.jpg = StrongPassGenerator\Images\ProgramEnv.jpg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F156AF12-09B8-470C-8368-EB1C52BE042E}"
+	ProjectSection(SolutionItems) = preProject
+		securepassword.ico = securepassword.ico
 	EndProjectSection
 EndProject
 Global
@@ -23,5 +28,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B16D1E2-450F-44B1-81B0-A3BADB9DB725}
 	EndGlobalSection
 EndGlobal

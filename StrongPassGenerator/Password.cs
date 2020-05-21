@@ -71,9 +71,7 @@ namespace StrongPassGenerator
             }
             while (password.Length < desriredLength);
  
-
             return password;
-
         }
 
         private string StripConfusingChars(string password)
