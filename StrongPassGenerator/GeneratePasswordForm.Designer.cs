@@ -32,7 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.passwordLengthTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -47,6 +47,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.readHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CopyButton = new System.Windows.Forms.Button();
+            this.cbExcludeDuplicateChars = new System.Windows.Forms.CheckBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +57,7 @@
             this.GenerateButton.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.GenerateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GenerateButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.GenerateButton.Location = new System.Drawing.Point(273, 415);
+            this.GenerateButton.Location = new System.Drawing.Point(271, 577);
             this.GenerateButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.GenerateButton.Name = "GenerateButton";
             this.GenerateButton.Size = new System.Drawing.Size(146, 46);
@@ -97,18 +99,18 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "Include Numbers:";
             // 
-            // textBox1
+            // passwordLengthTextBox
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.MenuText;
-            this.textBox1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox1.Location = new System.Drawing.Point(366, 74);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(62, 37);
-            this.textBox1.TabIndex = 5;
-            this.textBox1.Text = "15";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.passwordLengthTextBox.BackColor = System.Drawing.SystemColors.MenuText;
+            this.passwordLengthTextBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.passwordLengthTextBox.ForeColor = System.Drawing.SystemColors.Window;
+            this.passwordLengthTextBox.Location = new System.Drawing.Point(366, 74);
+            this.passwordLengthTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.passwordLengthTextBox.Name = "passwordLengthTextBox";
+            this.passwordLengthTextBox.Size = new System.Drawing.Size(62, 37);
+            this.passwordLengthTextBox.TabIndex = 5;
+            this.passwordLengthTextBox.Text = "15";
+            this.passwordLengthTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label4
             // 
@@ -136,18 +138,18 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(36, 292);
+            this.label6.Location = new System.Drawing.Point(36, 343);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(277, 29);
+            this.label6.Size = new System.Drawing.Size(307, 29);
             this.label6.TabIndex = 8;
-            this.label6.Text = "Exclude Similar Characters:";
+            this.label6.Text = "Exclude Confusing Characters:";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(38, 335);
+            this.label7.Location = new System.Drawing.Point(38, 386);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(320, 29);
@@ -216,7 +218,7 @@
             this.cbExcludeSimilarChars.Checked = true;
             this.cbExcludeSimilarChars.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbExcludeSimilarChars.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbExcludeSimilarChars.Location = new System.Drawing.Point(366, 292);
+            this.cbExcludeSimilarChars.Location = new System.Drawing.Point(366, 343);
             this.cbExcludeSimilarChars.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbExcludeSimilarChars.Name = "cbExcludeSimilarChars";
             this.cbExcludeSimilarChars.Size = new System.Drawing.Size(250, 33);
@@ -230,7 +232,7 @@
             this.cbExcludeAmbiguous.Checked = true;
             this.cbExcludeAmbiguous.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbExcludeAmbiguous.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbExcludeAmbiguous.Location = new System.Drawing.Point(366, 337);
+            this.cbExcludeAmbiguous.Location = new System.Drawing.Point(366, 388);
             this.cbExcludeAmbiguous.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbExcludeAmbiguous.Name = "cbExcludeAmbiguous";
             this.cbExcludeAmbiguous.Size = new System.Drawing.Size(292, 33);
@@ -243,7 +245,7 @@
             this.generatedPassword.BackColor = System.Drawing.SystemColors.MenuText;
             this.generatedPassword.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generatedPassword.ForeColor = System.Drawing.SystemColors.Window;
-            this.generatedPassword.Location = new System.Drawing.Point(43, 478);
+            this.generatedPassword.Location = new System.Drawing.Point(41, 640);
             this.generatedPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.generatedPassword.Name = "generatedPassword";
             this.generatedPassword.ReadOnly = true;
@@ -259,14 +261,14 @@
             this.readHereToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(712, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(712, 36);
             this.menuStrip1.TabIndex = 17;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // readHereToolStripMenuItem
             // 
             this.readHereToolStripMenuItem.Name = "readHereToolStripMenuItem";
-            this.readHereToolStripMenuItem.Size = new System.Drawing.Size(78, 29);
+            this.readHereToolStripMenuItem.Size = new System.Drawing.Size(78, 32);
             this.readHereToolStripMenuItem.Text = "About";
             this.readHereToolStripMenuItem.Click += new System.EventHandler(this.readHereToolStripMenuItem_Click);
             // 
@@ -275,7 +277,7 @@
             this.CopyButton.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.CopyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CopyButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.CopyButton.Location = new System.Drawing.Point(575, 478);
+            this.CopyButton.Location = new System.Drawing.Point(573, 640);
             this.CopyButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CopyButton.Name = "CopyButton";
             this.CopyButton.Size = new System.Drawing.Size(104, 46);
@@ -284,12 +286,39 @@
             this.CopyButton.UseVisualStyleBackColor = false;
             this.CopyButton.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // cbExcludeDuplicateChars
+            // 
+            this.cbExcludeDuplicateChars.AutoSize = true;
+            this.cbExcludeDuplicateChars.Checked = true;
+            this.cbExcludeDuplicateChars.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbExcludeDuplicateChars.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbExcludeDuplicateChars.Location = new System.Drawing.Point(366, 294);
+            this.cbExcludeDuplicateChars.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbExcludeDuplicateChars.Name = "cbExcludeDuplicateChars";
+            this.cbExcludeDuplicateChars.Size = new System.Drawing.Size(190, 33);
+            this.cbExcludeDuplicateChars.TabIndex = 20;
+            this.cbExcludeDuplicateChars.Text = "( e.g.  aA,Bb,Cc)";
+            this.cbExcludeDuplicateChars.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(36, 294);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(304, 29);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Exclude Duplicate Characters:";
+            // 
             // GeneratePasswordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(712, 577);
+            this.ClientSize = new System.Drawing.Size(712, 737);
+            this.Controls.Add(this.cbExcludeDuplicateChars);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.CopyButton);
             this.Controls.Add(this.generatedPassword);
             this.Controls.Add(this.cbExcludeAmbiguous);
@@ -302,7 +331,7 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.passwordLengthTextBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -327,7 +356,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox passwordLengthTextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -342,6 +371,8 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem readHereToolStripMenuItem;
         private System.Windows.Forms.Button CopyButton;
+        private System.Windows.Forms.CheckBox cbExcludeDuplicateChars;
+        private System.Windows.Forms.Label label8;
     }
 }
 
