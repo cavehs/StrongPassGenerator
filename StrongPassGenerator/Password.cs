@@ -9,23 +9,16 @@ namespace StrongPassGenerator
 {
     public class Password
     {
-        static RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-
         const string harderSymbols = "\"'()./:;<>^[]\\`{}|~_";
         const string simpleSymbols = "!@#$%&*-+?";
         const string alphabetUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const string alphabetLower = "abcdefghijklmnopqrstuvwxyz";
         const string numbers = "0123456789";
-        char[] ArrSimilarOnes = new char[] { '1', 'I', 'l', '|' };
-        char[] ArrSimilarZeros = new char[] { '0', 'O', 'o' };
-
-        //Random random;
+        readonly char[] ArrSimilarOnes = new char[] { '1', 'I', 'l', '|' };
+        readonly char[] ArrSimilarZeros = new char[] { '0', 'O', 'o' };
 
         public Password()
         {
-
-            // Always seed a random to ensure unique values!
-            //random = new Random(System.DateTime.Now.Millisecond);
         }
 
         public string Generate(int desriredLength, bool includeSymbols, bool includeNumbers, bool includeLowerCase, bool includeUpperCase, bool removeDuplicates, bool noSimilar, bool excludeAmbigious)
@@ -188,6 +181,7 @@ namespace StrongPassGenerator
             byte[] randomNumber = new byte[1];
             do
             {
+                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
                 // Fill the array with a random value.
                 rng.GetBytes(randomNumber);
             }
