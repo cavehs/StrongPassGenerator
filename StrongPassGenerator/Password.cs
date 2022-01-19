@@ -30,12 +30,12 @@ namespace StrongPassGenerator
 		readonly char[] ArrSimilarOnes = new char[] { '1', 'I', 'l', '|' };
 		readonly char[] ArrSimilarZeros = new char[] { '0', 'O', 'o' };
 
-		private RNGCryptoServiceProvider rng;
+		private RandomNumberGenerator rng = null;
 
 
 		public Password()
 		{
-			rng = new RNGCryptoServiceProvider();
+			rng = RandomNumberGenerator.Create();
 		}
 
 		public string Generate(PasswordOptions options)
