@@ -28,7 +28,20 @@ namespace StrongPassGenerator
         private void button1_Click(object sender, EventArgs e)
         {
             generatedPassword.Text = string.Empty;
-            generatedPassword.Text = password.Generate(int.Parse(passwordLengthTextBox.Text),cbIncludeSymbols.Checked,cbIncludeNumbers.Checked,cbIncludeLowercase.Checked,cbIncludeUppercase.Checked, cbExcludeDuplicateChars.Checked, cbExcludeSimilarChars.Checked,cbExcludeAmbiguous.Checked);
+
+            PasswordOptions options = new PasswordOptions()
+            {
+                PasswordLength = (int.Parse(passwordLengthTextBox.Text)),
+                IncludeSymbols = cbIncludeSymbols.Checked,
+                IncludeNumbers = cbIncludeNumbers.Checked,
+                IncludeLowercase = cbIncludeLowercase.Checked,
+                IncludeUppercase = cbIncludeUppercase.Checked,
+                ExcludeDuplicates = cbExcludeDuplicateChars.Checked,
+                ExcludeSimilar = cbExcludeSimilarChars.Checked,
+                ExcludeAmbiguous = cbExcludeAmbiguous.Checked
+            };
+
+            generatedPassword.Text = password.Generate(options);
             // Copy to clipboard to make it easier to use
             Clipboard.SetText(generatedPassword.Text);
 
