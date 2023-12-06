@@ -18,6 +18,7 @@ namespace StrongPassGenerator
 		public bool ExcludeDuplicates { get; set; }
 		public bool ExcludeSimilar { get; set; }
 		public bool ExcludeAmbiguous { get; set; }
+		public bool StartWithLetter { get; set; }
 	}
 
 	public class Password
@@ -61,7 +62,7 @@ namespace StrongPassGenerator
 			// Loop through this until we meet the length requirement
 			do
 			{
-				password = GeneratePassword(possibles, password, options.PasswordLength);
+				password = GeneratePassword(possibles, password, options.PasswordLength, options.StartWithLetter);
 
 				if (options.ExcludeDuplicates)
 				{
@@ -99,7 +100,7 @@ namespace StrongPassGenerator
 			return (password);
 		}
 
-		public string GeneratePassword(string possibles, string password, int targetLength)
+		public string GeneratePassword(string possibles, string password, int targetLength, bool startWithLetter)
 		{
 			char previouschar = ' ';
 
@@ -113,7 +114,15 @@ namespace StrongPassGenerator
 					continue;
 				}
 
-				password += newchar;
+                // User wants it to start with a letter?
+                if (password.Length == 0 && startWithLetter)
+                {
+                    if (char.IsAsciiLetter(newchar) == false)
+                    {
+                        continue;
+                    }
+                }
+                password += newchar;
 				previouschar = newchar;
 			}
 

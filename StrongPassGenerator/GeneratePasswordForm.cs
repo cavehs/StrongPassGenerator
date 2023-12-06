@@ -38,7 +38,8 @@ namespace StrongPassGenerator
                 IncludeUppercase = cbIncludeUppercase.Checked,
                 ExcludeDuplicates = cbExcludeDuplicateChars.Checked,
                 ExcludeSimilar = cbExcludeSimilarChars.Checked,
-                ExcludeAmbiguous = cbExcludeAmbiguous.Checked
+                ExcludeAmbiguous = cbExcludeAmbiguous.Checked,
+                StartWithLetter = cbStartWithLetter.Checked
             };
 
             generatedPassword.Text = password.Generate(options);
@@ -51,5 +52,6 @@ namespace StrongPassGenerator
         {
             Clipboard.SetText(generatedPassword.Text);
         }
+
     }
 }
