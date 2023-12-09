@@ -1,232 +1,215 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace StrongPassGenerator
 {
-    public class Password
-    {
-        Random random = new Random();
-        public string Generate(int inputLength, bool symbol, bool number, bool lowerCase, bool upperCase, bool noSimilar, bool isAmbigious)
-        {
-            var initialInputLength = inputLength;
-            string pass = null;
+	public class PasswordOptions
+	{
+		public int PasswordLength { get; set; }
+		public bool IncludeSymbols { get; set; }
+		public bool IncludeNumbers { get; set; }
+		public bool IncludeUppercase { get; set; }
+		public bool IncludeLowercase { get; set; }
+		public bool ExcludeDuplicates { get; set; }
+		public bool ExcludeSimilar { get; set; }
+		public bool ExcludeAmbiguous { get; set; }
+		public bool StartWithLetter { get; set; }
+	}
 
-            someMore: for (int i = 0; i < inputLength; i++)
-            {
+	public class Password
+	{
+		const string harderSymbols = "\"'()./:;<>^[]\\`{}|~_";
+		const string simpleSymbols = "!@#$%&*-+?";
+		const string alphabetUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		const string alphabetLower = "abcdefghijklmnopqrstuvwxyz";
+		const string numbers = "0123456789";
+		readonly char[] ArrSimilarOnes = new char[] { '1', 'I', 'l', '|' };
+		readonly char[] ArrSimilarZeros = new char[] { '0', 'O', 'o' };
 
-                up: switch (random.Next(1, 6))
+		private RandomNumberGenerator rng = null;
+
+
+		public Password()
+		{
+			rng = RandomNumberGenerator.Create();
+		}
+
+		public string Generate(PasswordOptions options)
+		{
+			string password = string.Empty;
+			string possibles = string.Empty;
+
+			if (options.IncludeSymbols)
+				possibles += simpleSymbols;
+
+			if (options.IncludeNumbers)
+				possibles += numbers;
+
+			if (options.IncludeLowercase)
+				possibles += alphabetLower;
+
+			if (options.IncludeUppercase)
+				possibles += alphabetUpper;
+
+			if (!options.ExcludeAmbiguous)
+				possibles += harderSymbols;
+
+			// Loop through this until we meet the length requirement
+			do
+			{
+				password = GeneratePassword(possibles, password, options.PasswordLength, options.StartWithLetter);
+
+				if (options.ExcludeDuplicates)
+				{
+					password = StripDuplicates(password);
+				}
+
+				if (options.ExcludeSimilar)
+				{
+					password = StripDuplicatesCaseInsensitive(password);
+				}
+
+				if (options.ExcludeAmbiguous)
+				{
+					password = StripConfusingChars(password);
+				}
+
+			}
+			while (password.Length < options.PasswordLength);
+
+			return password;
+		}
+
+		private string StripConfusingChars(string password)
+		{
+			if (password.IndexOfAny(ArrSimilarOnes) >= 0)
+			{
+				password = StripRepeating(password, ArrSimilarOnes);
+			}
+
+			if (password.IndexOfAny(ArrSimilarZeros) >= 0)
+			{
+				password = StripRepeating(password, ArrSimilarZeros);
+			}
+
+			return (password);
+		}
+
+		public string GeneratePassword(string possibles, string password, int targetLength, bool startWithLetter)
+		{
+			char previouschar = ' ';
+
+			while (password.Length < targetLength)
+			{
+				char newchar = possibles[GenerateRandomNumber(possibles.Length)];
+
+				// Try to avoid the same character twice? Aa should not be allowed, but Aba would be 
+				if (Char.ToLower(previouschar) == Char.ToLower(newchar))
+				{
+					continue;
+				}
+
+                // User wants it to start with a letter?
+                if (password.Length == 0 && startWithLetter)
                 {
-                    case 1:
-                        if (symbol == true)
-                        {
-                            pass += Symbols();
-                        }
-                        else
-                            goto up;
-                        break;
-
-                    case 2:
-                        if (number == true)
-                        {
-                            pass += Numbers();
-                        }
-                        else
-                            goto up;
-                        break;
-
-                    case 3:
-                        if (lowerCase == true)
-                        {
-                            pass += LowerCase();
-                        }
-                        else
-                            goto up;
-                        break;
-
-                    case 4:
-                        if (upperCase == true)
-                        {
-                            pass += UpperCase();
-                        }
-                        else
-                            goto up;
-                        break;
-                    case 5:
-                        if (isAmbigious == false)
-                        {
-                            pass += Ambigious();
-                        }
-                        else
-                            goto up;
-                        break;
-                }
-
-                if (noSimilar == true)
-                {
-                    pass = removeSimilar(pass);
-                    if (pass.Length < initialInputLength)
+                    if (char.IsAsciiLetter(newchar) == false)
                     {
-                        inputLength = initialInputLength - pass.Length;
-                        goto someMore;
+                        continue;
                     }
                 }
-            }
+                password += newchar;
+				previouschar = newchar;
+			}
 
-            return pass;
+			return password;
+		}
 
-        }
+		public string StripDuplicates(string password)
+		{
+			if (password.Length < 2)
+				return password;
 
+			char c;
 
-        public char Symbols()
-        {
-            char symbolChar = ' ';
+			// For removing duplicates of same case: A,A or g,g
+			for (int i = 0; i < password.Length; i++)
+			{
+				c = password[i];
 
-            switch (random.Next(1, 6))
-            {
-                case 1:
-                    symbolChar = (char)(random.Next(33, 34));
-                    break;
-                case 2:
-                    symbolChar = (char)(random.Next(35, 39));
-                    break;
+				for (int j = i + 1; j < password.Length; j++)
+				{
+					if (c == password[j])
+					{
+						password = password.Remove(j, 1);
+						j--;
+					}
+				}
+			}
 
-                case 3:
-                    symbolChar = (char)(random.Next(42, 44));
-                    break;
-
-
-                case 4:
-                    symbolChar = (char)(random.Next(61, 62));
-                    break;
-                case 5:
-                    symbolChar = (char)(random.Next(63, 65));
-                    break;
-
-            }
-            return symbolChar;
-        }
-
-        public char Numbers()
-        {
-            char NumbersChar = (char)(random.Next(49, 58));
-            return NumbersChar;
-        }
-
-        public char LowerCase()
-        {
-            char lowerCaseChar = (char)(random.Next(97, 123));
-            return lowerCaseChar;
-        }
-        public char UpperCase()
-        {
-            char upperCaseChar = (char)(random.Next(65, 91));
-            return upperCaseChar;
-        }
+			return password;
+		}
 
 
+		public string StripDuplicatesCaseInsensitive(string password)
+		{
+			if (password.Length < 2)
+				return password;
 
-        public string removeSimilar(string similar)
-        {
-            char c;
-            for (int i = 0; i < similar.Length; i++)//for removing lower and uppercase similarities e.g. A,a
-            {
-                c = similar[i];
+			char c;
+			// For removing duplicates case insensitive e.g. A,a
+			for (int i = 0; i < password.Length; i++)
+			{
+				c = password[i];
 
-                if ((int)c <= 90 && (int)c >= 65)
-                    c = (char)(32 + (int)c);
-                else if ((int)c <= 122 && (int)c >= 97)
-                    c = (char)((int)c - 32);
+				if ((int)c <= 90 && (int)c >= 65)
+					c = (char)(32 + (int)c);
+				else if ((int)c <= 122 && (int)c >= 97)
+					c = (char)((int)c - 32);
 
-                for (int j = i + 1; j < similar.Length; j++)
-                {
-                    if (c == similar[j])
-                    {
-                        similar = similar.Remove(j, 1);
-                        j--;
-                    }
-                }
-            }
-            for (int i = 0; i < similar.Length; i++)// For removing similarities: A,A or G,G
-            {
-                c = similar[i];
+				for (int j = i + 1; j < password.Length; j++)
+				{
+					if (c == password[j])
+					{
+						password = password.Remove(j, 1);
+						j--;
+					}
+				}
+			}
 
-                for (int j = i + 1; j < similar.Length; j++)
-                {
-                    if (c == similar[j])
-                    {
-                        similar = similar.Remove(j, 1);
-                        j--;
-                    }
-                }
-            }
+			return password;
+		}
 
-            var ArrSimilarOnes = new char[7] { '1', 'I', 'l', '|', '0', 'O', 'o' };
+		private string StripRepeating(string inString, char[] markers)
+		{
 
-            for (int i = 0; i < ArrSimilarOnes.Length; i++)// For removing similarities e.g.: O,o,0
-            {
-                c = ArrSimilarOnes[i];
-                for (int j = 0; j < similar.Length; j++)
-                {
-                    if (c == similar[j])
-                    {
-                        similar = similar.Remove(j, 1);
-                        j--;
-                    }
-                }
-            }
+			for (int i = 0; i < markers.Length; i++)
+			{
+				// Do we have the same marker more than once?
+				if (inString.IndexOf(markers[i]) != inString.LastIndexOf(markers[i]))
+				{
+					// Remove the last one
+					inString = inString.Remove(inString.LastIndexOf(markers[i]), 1);
+				}
+			}
 
+			return (inString);
+		}
 
-            return similar;
-        }
+		public byte GenerateRandomNumber(int randomSpaceSize)
+		{
+			// Create a byte array to hold the random value.
+			byte[] randomNumber = new byte[1];
+			// Fill the array with a random value.
+			rng.GetBytes(randomNumber);
 
-
-        public char Ambigious()
-        {
-            char ambChar = ' ';
-
-            switch (random.Next(1, 12))
-            {
-                case 1:
-                    ambChar = (char)(random.Next(34, 35));
-                    break;
-                case 2:
-                    ambChar = (char)(random.Next(39, 42));
-                    break;
-
-                case 3:
-                    ambChar = (char)(random.Next(44, 45));
-                    break;
-
-                case 4:
-                    ambChar = (char)(random.Next(46, 48));
-                    break;
-                case 5:
-                    ambChar = (char)(random.Next(58, 61));
-                    break;
-                case 6:
-                    ambChar = (char)(random.Next(62, 63));
-                    break;
-                case 7:
-                    ambChar = (char)(random.Next(91, 95));
-                    break;
-                case 8:
-                    ambChar = (char)(random.Next(96, 97));
-                    break;
-                case 9:
-                    ambChar = (char)(random.Next(123, 127));
-                    break;
-                case 10:
-                    ambChar = (char)(random.Next(95, 96));  // _
-                    break;
-                case 11:
-                    ambChar = (char)(random.Next(45, 46));  // -
-                    break;
-            }
-            return ambChar;
-        }
-    }
+			// Return the random number mod the search space
+			return (byte)(randomNumber[0] % randomSpaceSize);
+		}
+	}
 }
 
